@@ -32,9 +32,10 @@ jobs:
           QGIS_REPO: ubuntu-ltr
           URL_PREFIX: /ows
         with:
-          name: sourcepole/qwc-qgis-server
-          username: ${{ secrets.DOCKER_HUB_USER }}
-          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+          name: neotrade-ts/qwc-qgis-server
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: ghcr.io
           tags: "${{ steps.get_tag_qgis_3_ltr.outputs.tags }}"
           workdir: .
           buildargs: QGIS_REPO,URL_PREFIX
@@ -45,9 +46,10 @@ jobs:
         env:
           QGIS_VERSION: ${{ steps.get_tag_qgis_3_ltr.outputs.version }}
         with:
-          name: sourcepole/qwc-qgis-server
-          username: ${{ secrets.DOCKER_HUB_USER }}
-          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+          name: neotrade-ts/qwc-qgis-server
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: ghcr.io
           tags: "${{ steps.get_tag_qgis_3_ltr.outputs.version }}-plugins,${{ steps.get_tag_qgis_3_ltr.outputs.minor }}-plugins"
           workdir: .
           dockerfile: Dockerfile-plugins
@@ -59,14 +61,15 @@ jobs:
         env:
           QGIS_VERSION: ${{ steps.get_tag_qgis_3_ltr.outputs.version }}
         with:
-          name: sourcepole/qwc-qgis-server
-          username: ${{ secrets.DOCKER_HUB_USER }}
-          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+          name: neotrade-ts/qwc-qgis-server
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: ghcr.io
           tags: "${{ steps.get_tag_qgis_3_ltr.outputs.version }}-odbc,${{ steps.get_tag_qgis_3_ltr.outputs.minor }}-odbc"
           workdir: .
           dockerfile: Dockerfile-odbc
           buildargs: QGIS_VERSION
-          platforms: linux/arm64,linux/amd64
+          platforms: linux/amd64 # Does not support arm64
 
       - name: Get version tag QGIS 3
         id: get_tag_qgis_3
@@ -80,9 +83,11 @@ jobs:
         env:
           URL_PREFIX: /ows
         with:
-          name: sourcepole/qwc-qgis-server
-          username: ${{ secrets.DOCKER_HUB_USER }}
-          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+          name: neotrade-ts/qwc-qgis-server
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: ghcr.io
           tags: "${{ steps.get_tag_qgis_3.outputs.tags }}"
           workdir: .
           buildargs: URL_PREFIX
+          platforms: linux/arm64,linux/amd64
